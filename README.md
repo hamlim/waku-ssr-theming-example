@@ -1,6 +1,6 @@
 # SSR-compatible theming with Waku
 
-> See the [live demo here]()
+> See the [live demo here](https://waku-ssr-theming-example.mhamlin.workers.dev/)
 
 This app demonstrates a way to support SSR-safe theming within a Waku app. It relies on injecting a script that will be hoisted into the head by React, which will then immediately run a function to check the preferred user theme, and set a theme classname on the `html` element.
 
