@@ -1,35 +1,54 @@
-import { Link } from 'waku';
+import { CopyButton } from "../components/copy-button";
+import { cssSnippet, jsSnippet } from "./code-blocks" with { type: "macro" };
 
-import { Counter } from '../components/counter';
-
-export default async function HomePage() {
-  const data = await getData();
-
+function CodeBlock(props: { children: { raw: string; html: string } }) {
   return (
-    <div>
-      <title>{data.title}</title>
-      <h1 className="text-4xl font-bold tracking-tight">{data.headline}</h1>
-      <p>{data.body}</p>
-      <Counter />
-      <Link to="/about" className="mt-4 inline-block underline">
-        About page
-      </Link>
+    <div className="relative not-prose font-mono">
+      <CopyButton
+        value={props.children.raw}
+        className="absolute right-2 top-2 h-8 w-8 hover:bg-muted/30"
+      />
+      <code
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+        dangerouslySetInnerHTML={{ __html: props.children.html }}
+        className="[&>pre]:p-4 [&>pre]:rounded-md [&>pre]:overflow-auto my-2 [&>pre]:font-mono [&>pre]:pr-12 block"
+      />
     </div>
   );
 }
 
-const getData = async () => {
-  const data = {
-    title: 'Waku',
-    headline: 'Waku',
-    body: 'Hello world!',
-  };
-
-  return data;
-};
+export default async function HomePage() {
+  return (
+    <main className="prose lg:prose-xl dark:prose-invert mx-auto font-sans my-40">
+      <h1>SSR-compatible theming with Waku</h1>
+      <p>
+        This app demonstrates a way to support SSR-safe theming within a Waku
+        app. It relies on injecting a script that will be hoisted into the{" "}
+        <code>head</code> by React, which will then immediately run a function
+        to check the preferred user theme, and set a theme classname on the{" "}
+        <code>html</code> element.
+      </p>
+      <p>
+        <strong>SSR-safe theming</strong> means that the theme is applied to the
+        page before the user sees any content. This avoids any flash of unstyled
+        content or flash of incorrectly styled content based on the users
+        desired color scheme.
+      </p>
+      <h2>How it works:</h2>
+      <p>Here's the script that gets injected into the head:</p>
+      <CodeBlock>{jsSnippet}</CodeBlock>
+      <p>
+        Then, you can customize your css to style the document based on the two
+        theme classes (<code>light</code> and <code>dark</code>).
+      </p>
+      <CodeBlock>{cssSnippet}</CodeBlock>
+      <p>That's it!</p>
+    </main>
+  );
+}
 
 export const getConfig = async () => {
   return {
-    render: 'static',
+    render: "dynamic",
   } as const;
 };
