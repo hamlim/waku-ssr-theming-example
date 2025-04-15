@@ -1,5 +1,5 @@
+import { cssSnippet, jsSnippet } from "../code-blocks" with { type: "macro" };
 import { CopyButton } from "../components/copy-button";
-import { cssSnippet, jsSnippet } from "./code-blocks" with { type: "macro" };
 
 function CodeBlock(props: { children: { raw: string; html: string } }) {
   return (
@@ -27,6 +27,13 @@ export default async function HomePage() {
         <code>head</code> by React, which will then immediately run a function
         to check the preferred user theme, and set a theme classname on the{" "}
         <code>html</code> element.
+      </p>
+      <p>
+        Proof that this page is server side rendered:{" "}
+        <time className="italic" suppressHydrationWarning>
+          {new Date().toLocaleString()}
+        </time>{" "}
+        (refresh to see the time from the server!)
       </p>
       <p>
         <strong>SSR-safe theming</strong> means that the theme is applied to the

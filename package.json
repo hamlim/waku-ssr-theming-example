@@ -4,9 +4,12 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "build-cf-types": "wrangler types --experimental-include-runtime",
     "dev": "waku dev",
-    "build": "waku build",
-    "start": "waku start"
+    "build": "waku build --with-cloudflare",
+    "start": "waku start",
+    "predeploy": "bun run build",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "@radix-ui/react-slot": "1.2.0",
@@ -29,6 +32,7 @@
     "shiki": "3.2.2",
     "tailwindcss": "4.1.3",
     "typescript": "5.8.3",
-    "unplugin-macros": "0.16.3"
+    "unplugin-macros": "0.16.3",
+    "wrangler": "4.11.0"
   }
 }
